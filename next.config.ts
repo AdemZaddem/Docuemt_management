@@ -1,8 +1,10 @@
 import type { NextConfig } from "next";
 
-const nextConfig: NextConfig = {
+const nextConfig = {
   /* config options here */
+  telemetry: false,
   reactCompiler: true,
+  
 };
 
 export default nextConfig;
