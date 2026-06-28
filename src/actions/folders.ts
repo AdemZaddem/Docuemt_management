@@ -1,16 +1,20 @@
+"use server"
 import { prisma } from "@/lib/prisma"
 import { createClient } from "@/lib/supabase/server"
 import { revalidatePath } from "next/cache"
 
-export const getFolders = async()=>{
-    const supabase = await createClient()
-    const {data:{user}} = await supabase.auth.getUser()
-    if(!user)return []
+export const getFolders = async () => {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return []
 
-    return await prisma.folder.findMany({
-        where:{userId:user.id},
-        orderBy:{createdAt:'desc'}
-    })
+  return await prisma.folder.findMany({
+    where: { userId: user.id },
+    orderBy: { createdAt: "desc" },
+    include: {
+      _count: { select: { files: true } },
+    },
+  })
 }
 
 export const getFolder = async(id:number)=>{
