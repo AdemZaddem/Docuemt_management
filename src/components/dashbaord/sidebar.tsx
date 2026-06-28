@@ -2,9 +2,10 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { LayoutDashboard, Files, Folder, Settings, LogOut, Menu, X } from "lucide-react"
+import { LayoutDashboard, Files, Folder, Settings, LogOut, Menu, X,ShieldCheck } from "lucide-react"
 import { logout } from "@/actions/auth"
 import { useState } from "react"
+import { useUserStore } from "@/store/user-store"
 
 const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -16,6 +17,7 @@ const navItems = [
 const DashboardSidebar = () => {
   const pathname = usePathname()
   const [isOpen, setIsOpen] = useState(false)
+  const {user} = useUserStore()
 
   return (
     <>
@@ -82,6 +84,12 @@ const DashboardSidebar = () => {
           })}
         </nav>
 
+          {user?.role === "ADMIN" && (
+            <button className="text-[#4f46e5] flex items-center gap-3 px-3 py-2 rounded-[10px] text-sm hover:bg-gray-100 transition w-full cursor-pointer">
+                <ShieldCheck />
+                Admin Panel
+            </button>
+          )}
         <form action={logout}>
           <button
             type="submit"
@@ -91,6 +99,7 @@ const DashboardSidebar = () => {
             Logout
           </button>
         </form>
+
       </aside>
     </>
   )
