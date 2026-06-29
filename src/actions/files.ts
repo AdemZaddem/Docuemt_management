@@ -15,6 +15,15 @@ export const getFiles = async()=>{
     })
 }
 
+export const getFile = async(id:number)=>{
+    const supabase = await createClient()
+    const {data:{user}} = await supabase.auth.getUser()
+    if(!user)return null
+    return prisma.file.findUnique({
+        where:{id,userId:user.id}
+    })
+}
+
 
 export const getFilesByFolder = async(folderId:number)=>{
     const supabase = await createClient()

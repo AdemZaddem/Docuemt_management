@@ -3,6 +3,7 @@ import { Search, Grid3x2, TableOfContents, FileText } from "lucide-react";
 import { useState } from "react";
 import { File } from "../../generated/prisma/client";
 import { formatBytes, getFileIcon } from "@/app/utils";
+import Link from "next/link";
 type Props = {
   files: File[];
 };
@@ -58,7 +59,7 @@ const ListFiles = ({ files }: Props) => {
             .map((file) => {
               const { icon: Icon, color, bg } = getFileIcon(file.type);
               return (
-                <div
+                <Link href={`/dashboard/files/${file.id}`}
                   key={file.id}
                   className="bg-white p-6 rounded-[12px] border border-gray-200"
                 >
@@ -80,7 +81,7 @@ const ListFiles = ({ files }: Props) => {
                       })}
                     </p>
                   </div>
-                </div>
+                </Link>
               );
             })}
         </div>
